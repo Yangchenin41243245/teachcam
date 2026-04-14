@@ -1,0 +1,3 @@
+0 With Mask
+1 Without Mask
+2 No one
