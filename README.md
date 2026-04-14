@@ -1,8 +1,7 @@
 # TeachCam
 
 **Teachable Machine × Flask × Expo**
-[Apk連結]([https://github.com/tony1966/praat-project](https://drive.google.com/file/d/1UmKzO7rdrzYSUIYdI3zkvfcjqTXj4QXZ/view?usp=drive_link
-)
+[apk](https://drive.google.com/file/d/1UmKzO7rdrzYSUIYdI3zkvfcjqTXj4QXZ/view?usp=drive_link)
 
 手機相機即時串流影像至電腦端 Flask 伺服器，由 Python + Keras 完成推論後即時回傳辨識結果的 AI 影像分類專題。
 ---
