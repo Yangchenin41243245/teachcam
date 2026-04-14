@@ -62,7 +62,7 @@ teachcam/
 
 ## 快速開始
 
-### 1. 電腦端 — 啟動 Flask 伺服器
+### 1. 電腦端 — 啟動 Flask 伺服器 (在此專案內)
 
 ```bash
 cd teachcam-server
