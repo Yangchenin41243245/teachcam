@@ -1,77 +1,94 @@
-import { Image } from 'expo-image';
-import { Platform, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 
-import { HelloWave } from '@/components/hello-wave';
 import ParallaxScrollView from '@/components/parallax-scroll-view';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
-import { Link } from 'expo-router';
 
 export default function HomeScreen() {
   return (
     <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
+      headerBackgroundColor={{ light: '#0f172a', dark: '#0f172a' }}
       headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
-      }>
+        <ThemedView style={styles.headerContent}>
+          <ThemedText style={styles.headerEmoji}>📷</ThemedText>
+          <ThemedText style={styles.headerTitle}>TeachCam</ThemedText>
+          <ThemedText style={styles.headerSub}>Teachable Machine × Flask × Expo</ThemedText>
+        </ThemedView>
+      }
+    >
       <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
+        <ThemedText type="title">即時影像辨識</ThemedText>
+        <ThemedText style={styles.badge}>🧠 AI Powered</ThemedText>
       </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({
-              ios: 'cmd + d',
-              android: 'cmd + m',
-              web: 'F12',
-            })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <Link href="/modal">
-          <Link.Trigger>
-            <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-          </Link.Trigger>
-          <Link.Preview />
-          <Link.Menu>
-            <Link.MenuAction title="Action" icon="cube" onPress={() => alert('Action pressed')} />
-            <Link.MenuAction
-              title="Share"
-              icon="square.and.arrow.up"
-              onPress={() => alert('Share pressed')}
-            />
-            <Link.Menu title="More" icon="ellipsis">
-              <Link.MenuAction
-                title="Delete"
-                icon="trash"
-                destructive
-                onPress={() => alert('Delete pressed')}
-              />
-            </Link.Menu>
-          </Link.Menu>
-        </Link>
 
-        <ThemedText>
-          {`Tap the Explore tab to learn more about what's included in this starter app.`}
-        </ThemedText>
+      <ThemedView style={styles.card}>
+        <ThemedText style={styles.cardIcon}>🎯</ThemedText>
+        <ThemedView style={styles.cardBody}>
+          <ThemedText type="subtitle">專題簡介</ThemedText>
+          <ThemedText>
+            本專題結合 Google Teachable Machine 訓練的自訂影像分類模型，
+            手機相機以每秒多幀的方式將影像串流送至電腦端 Flask 伺服器，
+            由 Python + Keras 完成推論後即時回傳辨識結果。
+          </ThemedText>
+        </ThemedView>
       </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          {`When you're ready, run `}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
+
+      <ThemedView style={styles.card}>
+        <ThemedText style={styles.cardIcon}>🛠</ThemedText>
+        <ThemedView style={styles.cardBody}>
+          <ThemedText type="subtitle">技術架構</ThemedText>
+          <ThemedText>
+            <ThemedText type="defaultSemiBold">手機端框架：</ThemedText>Expo Router（React Native）{'\n'}
+            <ThemedText type="defaultSemiBold">相機擷取：</ThemedText>expo-camera{'\n'}
+            <ThemedText type="defaultSemiBold">影像前處理：</ThemedText>expo-image-manipulator（224×224 JPEG）{'\n'}
+            <ThemedText type="defaultSemiBold">通訊方式：</ThemedText>HTTP POST / JSON base64{'\n'}
+            <ThemedText type="defaultSemiBold">伺服器：</ThemedText>Python Flask（threaded）{'\n'}
+            <ThemedText type="defaultSemiBold">推論引擎：</ThemedText>TensorFlow / Keras（keras_model.h5）{'\n'}
+            <ThemedText type="defaultSemiBold">模型來源：</ThemedText>Teachable Machine（Keras 格式）
+          </ThemedText>
+        </ThemedView>
+      </ThemedView>
+
+      <ThemedView style={styles.card}>
+        <ThemedText style={styles.cardIcon}>🔄</ThemedText>
+        <ThemedView style={styles.cardBody}>
+          <ThemedText type="subtitle">運作流程</ThemedText>
+          <ThemedView style={styles.steps}>
+            {[
+              '在 SETTINGS 頁填入電腦 IP，按「套用」',
+              '前往 VISION 頁，按下「開始串流」',
+              '手機每 300ms 拍攝一幀並壓縮至 224×224',
+              '以 base64 JSON 送至 Flask /predict 端點',
+              'Flask 執行 Keras 推論，回傳各類別信心度',
+              'App 即時更新長條圖與 FPS 顯示',
+            ].map((step, i) => (
+              <ThemedView key={i} style={styles.stepRow}>
+                <ThemedView style={styles.stepNum}>
+                  <ThemedText style={styles.stepNumText}>{i + 1}</ThemedText>
+                </ThemedView>
+                <ThemedText style={styles.stepText}>{step}</ThemedText>
+              </ThemedView>
+            ))}
+          </ThemedView>
+        </ThemedView>
+      </ThemedView>
+
+      <ThemedView style={styles.card}>
+        <ThemedText style={styles.cardIcon}>📌</ThemedText>
+        <ThemedView style={styles.cardBody}>
+          <ThemedText type="subtitle">使用注意事項</ThemedText>
+          <ThemedText>
+            • 手機與電腦須在同一個 Wi-Fi 網段{'\n'}
+            • 使用前先在電腦執行 python server.py{'\n'}
+            • 辨識準確度取決於 Teachable Machine 訓練資料品質{'\n'}
+            • 網路延遲會影響實際 fps，可在 SETTINGS 測試連線
+          </ThemedText>
+        </ThemedView>
+      </ThemedView>
+
+      <ThemedView style={styles.footer}>
+        <ThemedText style={styles.footerText}>
+          先至 <ThemedText type="defaultSemiBold">⚙️ SETTINGS</ThemedText> 設定 IP，再前往 <ThemedText type="defaultSemiBold">📷 VISION</ThemedText> 開始串流
         </ThemedText>
       </ThemedView>
     </ParallaxScrollView>
@@ -79,20 +96,95 @@ export default function HomeScreen() {
 }
 
 const styles = StyleSheet.create({
+  headerContent: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'transparent',
+  },
+  headerEmoji: {
+    fontSize: 56,
+  },
+  headerTitle: {
+    fontSize: 36,
+    fontWeight: '800',
+    color: '#fff',
+    letterSpacing: 1,
+  },
+  headerSub: {
+    fontSize: 14,
+    color: '#94a3b8',
+    marginTop: 4,
+  },
   titleContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 8,
+    justifyContent: 'space-between',
+    marginBottom: 4,
   },
-  stepContainer: {
+  badge: {
+    fontSize: 12,
+    backgroundColor: '#1e40af',
+    color: '#bfdbfe',
+    paddingHorizontal: 10,
+    paddingVertical: 4,
+    borderRadius: 20,
+    overflow: 'hidden',
+  },
+  card: {
+    flexDirection: 'row',
+    gap: 12,
+    marginBottom: 16,
+    padding: 16,
+    borderRadius: 16,
+    backgroundColor: 'rgba(148,163,184,0.08)',
+    borderWidth: 1,
+    borderColor: 'rgba(148,163,184,0.15)',
+  },
+  cardIcon: {
+    fontSize: 28,
+    marginTop: 2,
+  },
+  cardBody: {
+    flex: 1,
+    gap: 6,
+    backgroundColor: 'transparent',
+  },
+  steps: {
     gap: 8,
+    backgroundColor: 'transparent',
+  },
+  stepRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+    backgroundColor: 'transparent',
+  },
+  stepNum: {
+    width: 24,
+    height: 24,
+    borderRadius: 12,
+    backgroundColor: '#2563eb',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  stepNumText: {
+    color: '#fff',
+    fontSize: 12,
+    fontWeight: '700',
+  },
+  stepText: {
+    flex: 1,
+    fontSize: 14,
+  },
+  footer: {
+    alignItems: 'center',
+    paddingVertical: 12,
     marginBottom: 8,
+    backgroundColor: 'transparent',
   },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
+  footerText: {
+    fontSize: 14,
+    color: '#64748b',
   },
 });
