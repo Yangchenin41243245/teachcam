@@ -2,8 +2,9 @@
 
 **Teachable Machine × Flask × Expo**
 
-手機相機即時串流影像至電腦端 Flask 伺服器，由 Python + Keras 完成推論後即時回傳辨識結果的 AI 影像分類專題。
+[APK 下載連結](https://drive.google.com/file/d/1UmKzO7rdrzYSUIYdI3zkvfcjqTXj4QXZ/view?usp=drive_link)
 
+手機相機即時串流影像至電腦端 Flask 伺服器，由 Python + Keras 完成推論後即時回傳辨識結果的 AI 影像分類簡單專題。
 ---
 
 ## 專題架構
@@ -62,7 +63,7 @@ teachcam/
 
 ## 快速開始
 
-### 1. 電腦端 — 啟動 Flask 伺服器
+### 1. 電腦端 — 啟動 Flask 伺服器 (在此專案內)
 
 ```bash
 cd teachcam-server
