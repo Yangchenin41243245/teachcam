@@ -1,14 +1,21 @@
 import { CameraView, useCameraPermissions } from 'expo-camera';
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import {
   StyleSheet, Text, TouchableOpacity, View,
 } from 'react-native';
 import { useStreamPredict } from '../../hooks/useStreamPredict';
+import { useWarningSound } from '../../hooks/useWarningSound';
 
 export default function VisionScreen() {
   const cameraRef = useRef<CameraView>(null);
   const [permission, requestPermission] = useCameraPermissions();
   const { predictions, streaming, fps, startStream, stopStream } = useStreamPredict(cameraRef);
+  const { triggerIfBelow } = useWarningSound();
+
+  useEffect(() => {
+    if (!streaming || predictions.length === 0) return;
+    triggerIfBelow(predictions[0].probability, 0.20);
+  }, [predictions, streaming, triggerIfBelow]);
 
   if (!permission) return <View />;
   if (!permission.granted) {
