@@ -21,8 +21,8 @@ export function useWarningSound() {
     };
   }, []);
 
-  const triggerIfBelow = useCallback((probability: number, threshold: number) => {
-    if (probability >= threshold) return;
+  const triggerIfAbove = useCallback((probability: number, threshold: number) => {
+    if (probability < threshold) return;
     const now = Date.now();
     if (now - lastPlayedRef.current < COOLDOWN_MS) return;
     lastPlayedRef.current = now;
@@ -31,5 +31,5 @@ export function useWarningSound() {
       .catch((e) => console.warn('音效播放失敗:', e));
   }, []);
 
-  return { triggerIfBelow };
+  return { triggerIfAbove };
 }

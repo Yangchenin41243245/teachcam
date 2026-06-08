@@ -10,12 +10,13 @@ export default function VisionScreen() {
   const cameraRef = useRef<CameraView>(null);
   const [permission, requestPermission] = useCameraPermissions();
   const { predictions, streaming, fps, startStream, stopStream } = useStreamPredict(cameraRef);
-  const { triggerIfBelow } = useWarningSound();
+  const { triggerIfAbove } = useWarningSound();
 
   useEffect(() => {
     if (!streaming || predictions.length === 0) return;
-    triggerIfBelow(predictions[0].probability, 0.20);
-  }, [predictions, streaming, triggerIfBelow]);
+    const withoutMask = predictions.find((p) => p.label === 'Without Mask');
+    if (withoutMask) triggerIfAbove(withoutMask.probability, 0.80);
+  }, [predictions, streaming, triggerIfAbove]);
 
   if (!permission) return <View />;
   if (!permission.granted) {
