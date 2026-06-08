@@ -31,6 +31,7 @@
 | 相機擷取 | expo-camera |
 | 影像前處理 | expo-image-manipulator（resize 至 224×224 JPEG） |
 | 通訊方式 | HTTP POST / JSON base64 |
+| 音效通知 | expo-av（偵測到未戴口罩時播放警告音效） |
 | 伺服器 | Python Flask（threaded） |
 | 推論引擎 | TensorFlow / Keras |
 | 模型來源 | Google Teachable Machine（Keras `.h5` 格式） |
@@ -51,7 +52,13 @@ teachcam/
 │   └── CamServerContext.tsx  # 全域伺服器 URL 狀態（AsyncStorage 持久化）
 ├── hooks/
 │   ├── useStreamPredict.ts   # 擷取 → 壓縮 → 送幀 → 解析結果
+│   ├── useWarningSound.ts    # expo-av 警告音效（Without Mask > 80% 觸發，3 秒冷卻）
+│   ├── bundleResourceIO.ts   # TF.js 本機模型權重載入器
 │   └── useTeachableModel.ts  # 本機 TF.js 推論（備用）
+├── assets/
+│   ├── sounds/
+│   │   └── warning.mp3       # 警告音效
+│   └── model/                # Teachable Machine 匯出模型（TF.js 格式）
 └── teachcam-server/
     ├── server.py             # Flask 推論伺服器
     └── model/
@@ -110,6 +117,8 @@ npx expo start
 ### 5. 開始辨識
 
 切換至 **VISION** 頁籤，按「**▶ 開始串流**」即可看到即時辨識結果與 FPS 數值。
+
+當模型偵測到 **Without Mask**（信心度 ≥ 80%）時，App 會自動播放警告音效（3 秒冷卻，不重複連響）。
 
 ---
 
